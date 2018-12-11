@@ -21,12 +21,33 @@ while(<FILE>)
     $currString = "$_";
     $currString =~ s/[' '#]//g;
 
-    my ($id, $startX, $startY, $length, $width) = ($currString =~ m/(\d+)@(\d+),(\d+):(\d+)x(\d+)/);
+    my ($id, $startX, $startY, $width, $length) = ($currString =~ m/(\d+)@(\d+),(\d+):(\d+)x(\d+)/);
     push @dataArray, clothData->new(id => $id, startX => $startX, startY => $startY, length => $length, width => $width);
-
+    
 }
+close FILE;
 
 foreach $data (@dataArray)
 {
-    print $data->id, " ", $data->startX, " ", $data->startY, " ", $data->length, " ", $data->width, "\n"
+    my $currEndX = 0;
+    my $currEndY = 0;
+    my $currId = $data->id;
+    my $currStartX = $data->startX;
+    my $currStartY = $data->startY;
+
+    $currEndX = $data->startX + $data->width;
+    $currEndY = $data->startY + $data->length;
+
+    foreach $compData (@dataArray)
+    {
+        if($currId != $compData->id)
+        {
+            if($currStartX >= $compData->startX & $currEndX <= $compData->startX + $compData->width)
+            {
+                print "here: ", $currStartX, " " , $currEndX, " ", $compData->startX, " ", $compData->startX + $compData->width, "\n";
+            }
+        }
+    }
+
+
 }
