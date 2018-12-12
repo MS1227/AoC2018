@@ -42,9 +42,12 @@ foreach $data (@dataArray)
     {
         if($currId != $compData->id)
         {
-            if($currStartX >= $compData->startX & $currEndX <= $compData->startX + $compData->width)
+            if((($currStartX <= $compData->startX & $compData->startX <= $currEndX) 
+                | ($compData->startX + $compData->width >= $currStartX & $compData->startX + $compData->width <= $currEndX)) & (($currStartY <= $compData->startY & $compData->startY <= $currEndY) 
+                    |(($compData->startY+ $compData->length >= $currStartY) & $compData->startY + $compData->length <= $currEndY)))
             {
                 print "here: ", $currStartX, " " , $currEndX, " ", $compData->startX, " ", $compData->startX + $compData->width, "\n";
+                print "      ", $currStartY, " " , $currEndY, " ", $compData->startY, " ", $compData->startY + $compData->length, "\n";
             }
         }
     }
